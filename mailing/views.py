@@ -24,6 +24,7 @@ class HelloWorld(View):
 
 class ClientCreateView(CreateView):
     model = Client
+    fields = ('email', 'full_name', 'comment')
     template_name = 'mailing/client_form.html'
     success_url = reverse_lazy('mailing:clients_list')
 
@@ -38,5 +39,18 @@ class ClientDetailView(DetailView):
     model = Client
     template_name = 'mailing/client_detail.html'
     context_object_name = 'client'
+
+
+class ClientUpdateView(UpdateView):
+    model = Client
+    fields = ('email', 'full_name', 'comment')
+    template_name = 'mailing/client_form.html'
+    success_url = reverse_lazy('mailing:clients_list')
+
+
+class ClientDeleteView(DeleteView):
+    model = Client
+    template_name = 'mailing/client_confirm_delete.html'
+    success_url = reverse_lazy('mailing:clients_list')
 
 

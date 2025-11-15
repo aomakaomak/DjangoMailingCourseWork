@@ -1,0 +1,16 @@
+{% extends 'mailing/base.html' %}
+
+{% block title %}Удаление клиента{{mailing.email}}{% endblock %}
+
+{% block content %}
+{% include 'mailing/header.html' %}
+
+<h2>Удаление клиента</h2>
+<p>Вы действительно хотите удалить {{ client.email }}?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a href="{% url 'mailing:clients_list' %}" class="btn btn-primary">Отменить</a>
+</form>
+
+{% endblock %}
