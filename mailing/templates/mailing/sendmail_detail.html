@@ -22,5 +22,11 @@
 <a href="{% url 'mailing:sendmail_delete' sendmail.pk %}" class="btn btn-danger">Удалить</a>
 <a href="{% url 'mailing:sendmails_list' %}" class="btn btn-primary">Вернуться к списку</a>
 
+<form method="post" action="{% url 'mailing:sendmail_run_now' sendmail.pk %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">
+        Отправить рассылку
+    </button>
+</form>
 
 {% endblock %}
