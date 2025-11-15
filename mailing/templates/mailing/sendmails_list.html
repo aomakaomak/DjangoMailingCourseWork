@@ -1,0 +1,15 @@
+{% extends 'mailing/base.html' %}
+
+{% block title %}Список рассылок{% endblock %}
+
+{% block content %}
+{% include 'mailing/header.html' %}
+<ul class="list-group">
+    {% for sendmail in sendmails %}
+    <li class="list-group-item">
+        <a href="{% url 'mailing:sendmail_detail' sendmail.pk %}">{{ sendmail.message }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

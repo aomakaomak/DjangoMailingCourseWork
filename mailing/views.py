@@ -86,6 +86,38 @@ class MessageDeleteView(DeleteView):
     success_url = reverse_lazy('mailing:messages_list')
 
 
+class SendMailCreateView(CreateView):
+    model = SendMail
+    fields = ('message', 'recipients', )
+    template_name = 'mailing/sendmail_form.html'
+    success_url = reverse_lazy('mailing:sendmails_list')
+
+
+class SendMailListView(ListView):
+    model = SendMail
+    template_name = 'mailing/sendmails_list.html'
+    context_object_name = 'sendmails'
+
+
+class SendMailDetailView(DetailView):
+    model = SendMail
+    template_name = 'mailing/sendmail_detail.html'
+    context_object_name = 'sendmail'
+
+
+class SendMailUpdateView(UpdateView):
+    model = SendMail
+    fields = ('message', 'recipients',)
+    template_name = 'mailing/sendmail_form.html'
+    success_url = reverse_lazy('mailing:sendmails_list')
+
+
+class SendMailDeleteView(DeleteView):
+    model = SendMail
+    template_name = 'mailing/sendmail_confirm_delete.html'
+    success_url = reverse_lazy('mailing:sendmails_list')
+
+
 
 
 

@@ -24,10 +24,16 @@
                     <a class="nav-link" href="{% url 'mailing:client_create' %}">Добавить клиента</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'mailing:messages_list' %}">Сообщение</a>
+                    <a class="nav-link" href="{% url 'mailing:messages_list' %}">Сообщения</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'mailing:message_create' %}">Добавить сообщение</a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mailing:sendmails_list' %}">Рассылки</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mailing:sendmail_create' %}">Добавить рассылку</a>
                 </li>
 
 

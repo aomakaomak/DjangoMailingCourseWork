@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 from .views import HelloWorld
 
-from .views import ClientListView, ClientCreateView, ClientDetailView, ClientDeleteView, ClientUpdateView, MessageDeleteView, MessageUpdateView, MessageCreateView, MessageDetailView, MessageListView
+from .views import ClientListView, ClientCreateView, ClientDetailView, ClientDeleteView, ClientUpdateView, MessageDeleteView, MessageUpdateView, MessageCreateView, MessageDetailView, MessageListView, SendMailDeleteView, SendMailDetailView, SendMailUpdateView, SendMailCreateView, SendMailListView
 
 app_name = 'mailing'
 
@@ -20,4 +20,10 @@ urlpatterns = [
     path('messages/<int:pk>/', MessageDetailView.as_view(), name='message_detail'),
     path('messages/update/<int:pk>/', MessageUpdateView.as_view(), name='message_update'),
     path('messages/delete/<int:pk>/', MessageDeleteView.as_view(), name='message_delete'),
+
+    path('sendmails/',SendMailListView.as_view(), name='sendmails_list'),
+    path('sendmails/new/', SendMailCreateView.as_view(), name='sendmail_create'),
+    path('sendmails/<int:pk>/', SendMailDetailView.as_view(), name='sendmail_detail'),
+    path('sendmails/update/<int:pk>/', SendMailUpdateView.as_view(), name='sendmail_update'),
+    path('sendmails/delete/<int:pk>/', SendMailDeleteView.as_view(), name='sendmail_delete'),
 ]
