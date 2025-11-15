@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "mailing",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,10 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'spbteplicy001@yandex.ru'
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+
+LOGIN_REDIRECT_URL = 'mailing:index'
+LOGIN_URL = 'users:login'
+
+AUTH_USER_MODEL = 'users.CustomUser'

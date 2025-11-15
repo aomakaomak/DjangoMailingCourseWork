@@ -29,5 +29,5 @@ urlpatterns = [
 
     path('sendmails/run_now/<int:pk>/', SendMailRunNowView.as_view(), name='sendmail_run_now'),
 
-    path('/', IndexView.as_view(), name='index')
+    path('index/', IndexView.as_view(), name='index')
 ]
