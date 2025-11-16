@@ -31,6 +31,12 @@ class ClientCreateView(CreateView):
     template_name = 'mailing/client_form.html'
     success_url = reverse_lazy('mailing:clients_list')
 
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.owner = self.request.user
+        obj.save()
+        return super().form_valid(form)
+
 
 class ClientListView(ListView):
     model = Client
@@ -94,6 +100,12 @@ class SendMailCreateView(CreateView):
     fields = ('message', 'recipients', )
     template_name = 'mailing/sendmail_form.html'
     success_url = reverse_lazy('mailing:sendmails_list')
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.owner = self.request.user
+        obj.save()
+        return super().form_valid(form)
 
 
 class SendMailListView(ListView):
