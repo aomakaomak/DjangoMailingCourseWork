@@ -278,7 +278,7 @@ class SendMailDisableView(LoginRequiredMixin, PermissionRequiredMixin, View):
         sendmail.save()
         return redirect('mailing:sendmail_detail', pk=pk)
 
-
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class IndexView(TemplateView):
     template_name = 'mailing/index.html'
 
@@ -306,23 +306,63 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = self.request.user
 
-        total_sendmails = SendMail.objects.count()
+        # отдельный ключ кеша для каждого пользователя / менеджера
+        cache_key = f'stats_user_{user.pk}'
+        cached_data = cache.get(cache_key)
 
-        attempts_qs = MailingAttempt.objects.all()
+        if cached_data is not None:
+            context.update(cached_data)
+            return context
+
+        # если в кеше нет — считаем
+        if user.has_perm('mailing.view_all_sendmails'):
+            sendmails_qs = SendMail.objects.all()
+            attempts_qs = MailingAttempt.objects.all()
+        else:
+            sendmails_qs = SendMail.objects.filter(owner=user)
+            attempts_qs = MailingAttempt.objects.filter(sendmail__owner=user)
+
+        total_sendmails = sendmails_qs.count()
         total_attempts = attempts_qs.count()
         success_attempts = attempts_qs.filter(status=MailingAttempt.SUCCESS).count()
         failed_attempts = attempts_qs.filter(status=MailingAttempt.FAILED).count()
-
         total_sent_messages = success_attempts
 
-        context['total_sendmails'] = total_sendmails
-        context['total_attempts'] = total_attempts
-        context['success_attempts'] = success_attempts
-        context['failed_attempts'] = failed_attempts
-        context['total_sent_messages'] = total_sent_messages
+        data = {
+            'total_sendmails': total_sendmails,
+            'total_attempts': total_attempts,
+            'success_attempts': success_attempts,
+            'failed_attempts': failed_attempts,
+            'total_sent_messages': total_sent_messages,
+        }
 
+        # кладём в кеш, например, на 5 минут
+        cache.set(cache_key, data, 60 * 5)
+
+        context.update(data)
         return context
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #
+    #     total_sendmails = SendMail.objects.count()
+    #
+    #     attempts_qs = MailingAttempt.objects.all()
+    #     total_attempts = attempts_qs.count()
+    #     success_attempts = attempts_qs.filter(status=MailingAttempt.SUCCESS).count()
+    #     failed_attempts = attempts_qs.filter(status=MailingAttempt.FAILED).count()
+    #
+    #     total_sent_messages = success_attempts
+    #
+    #     context['total_sendmails'] = total_sendmails
+    #     context['total_attempts'] = total_attempts
+    #     context['success_attempts'] = success_attempts
+    #     context['failed_attempts'] = failed_attempts
+    #     context['total_sent_messages'] = total_sent_messages
+    #
+    #     return context
 
 
 
