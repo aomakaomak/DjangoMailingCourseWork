@@ -18,6 +18,11 @@ class Client(models.Model):
     def __str__(self):
         return self.email
 
+    class Meta:
+        permissions = [
+            ('view_all_clients', 'Может просматривать всех клиентов'),
+        ]
+
 
 class Message(models.Model):
     subject = models.CharField(max_length=100, verbose_name='Тема письма')
@@ -64,6 +69,12 @@ class SendMail(models.Model):
         self.last_mailing = timezone.now()
         self.status = self.ENDED
         self.save()
+
+    class Meta:
+        permissions = [
+            ('view_all_sendmails', 'Может просматривать все рассылки'),
+            ('disable_sendmail', 'Может отключать рассылки'),
+        ]
 
 
 class MailingAttempt(models.Model):

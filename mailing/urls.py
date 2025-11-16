@@ -1,14 +1,10 @@
 from django.urls import path
 
-from . import views
-from .views import HelloWorld
-
 from .views import ClientListView, ClientCreateView, ClientDetailView, ClientDeleteView, ClientUpdateView, MessageDeleteView, MessageUpdateView, MessageCreateView, MessageDetailView, MessageListView, SendMailDeleteView, SendMailDetailView, SendMailUpdateView, SendMailCreateView, SendMailListView, SendMailRunNowView, IndexView, StatisticsView
 
 app_name = 'mailing'
 
 urlpatterns = [
-    path('helloworld/', HelloWorld.as_view(), name='helloworld'),
     path('clients/', ClientListView.as_view(), name='clients_list'),
     path('clients/new/', ClientCreateView.as_view(), name='client_create'),
     path('clients/<int:pk>/', ClientDetailView.as_view(), name='client_detail'),

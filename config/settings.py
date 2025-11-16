@@ -141,3 +141,4 @@ LOGIN_REDIRECT_URL = 'mailing:index'
 LOGIN_URL = 'users:login'
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
