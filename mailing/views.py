@@ -193,6 +193,30 @@ class IndexView(TemplateView):
         return context
 
 
+class StatisticsView(LoginRequiredMixin, TemplateView):
+    template_name = 'mailing/statistics.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        total_sendmails = SendMail.objects.count()
+
+        attempts_qs = MailingAttempt.objects.all()
+        total_attempts = attempts_qs.count()
+        success_attempts = attempts_qs.filter(status=MailingAttempt.SUCCESS).count()
+        failed_attempts = attempts_qs.filter(status=MailingAttempt.FAILED).count()
+
+        total_sent_messages = success_attempts
+
+        context['total_sendmails'] = total_sendmails
+        context['total_attempts'] = total_attempts
+        context['success_attempts'] = success_attempts
+        context['failed_attempts'] = failed_attempts
+        context['total_sent_messages'] = total_sent_messages
+
+        return context
+
+
 
 
 
