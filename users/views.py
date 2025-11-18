@@ -21,9 +21,9 @@ User = get_user_model()
 
 
 class RegisterView(CreateView):
-    template_name = 'users/register.html'
+    template_name = "users/register.html"
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('mailing:index')
+    success_url = reverse_lazy("mailing:index")
 
     def form_valid(self, form):
         # сохраняем пользователя ОДИН раз, явно
@@ -41,11 +41,11 @@ class RegisterView(CreateView):
         token = email_verification_token.make_token(user)
 
         activation_link = self.request.build_absolute_uri(
-            reverse_lazy('users:activate', kwargs={'uidb64': uid, 'token': token})
+            reverse_lazy("users:activate", kwargs={"uidb64": uid, "token": token})
         )
 
-        subject = 'Подтверждение email'
-        message = f'Для подтверждения email перейдите по ссылке:\n{activation_link}'
+        subject = "Подтверждение email"
+        message = f"Для подтверждения email перейдите по ссылке:\n{activation_link}"
         from_email = settings.DEFAULT_FROM_EMAIL
         recipient_list = [user.email]
 
@@ -63,9 +63,7 @@ def activate_account(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        messages.success(request, 'Ваш email подтверждён, вы вошли в систему.')
-        return redirect('mailing:index')
+        messages.success(request, "Ваш email подтверждён, вы вошли в систему.")
+        return redirect("mailing:index")
     else:
-        return render(request, 'users/activation_invalid.html')
-
-
+        return render(request, "users/activation_invalid.html")
