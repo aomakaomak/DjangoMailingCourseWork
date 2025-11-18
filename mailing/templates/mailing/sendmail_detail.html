@@ -1,0 +1,32 @@
+{% extends 'mailing/base.html' %}
+
+{% block title %}Рассылка {{ sendmail.message }}{% endblock %}
+
+{% block content %}
+{% include 'mailing/header.html' %}
+
+<h1>Рассылка {{ sendmail.message }}</h1>
+<p>Дата и время первой отправки: {{ sendmail.first_mailing }}</p>
+<p>Дата и время завершения рассылки: {{ sendmail.last_mailing }}</p>
+<p>Статус: {{ sendmail.get_status_display }}</p>
+<p>Получатели:</p>
+<ul>
+    {% for client in sendmail.recipients.all %}
+        <li>{{ client.email }} — {{ client.full_name }}</li>
+    {% empty %}
+        <li>Получателей нет</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'mailing:sendmail_update' sendmail.pk %}" class="btn btn-secondary">Редактировать</a>
+<a href="{% url 'mailing:sendmail_delete' sendmail.pk %}" class="btn btn-danger">Удалить</a>
+<a href="{% url 'mailing:sendmails_list' %}" class="btn btn-primary">Вернуться к списку</a>
+
+<form method="post" action="{% url 'mailing:sendmail_run_now' sendmail.pk %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">
+        Отправить рассылку
+    </button>
+</form>
+
+{% endblock %}

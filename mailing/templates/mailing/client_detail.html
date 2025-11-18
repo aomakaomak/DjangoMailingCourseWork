@@ -1,0 +1,17 @@
+{% extends 'mailing/base.html' %}
+
+{% block title %}Информация о клиенте {{ client.email }}{% endblock %}
+
+{% block content %}
+{% include 'mailing/header.html' %}
+
+<h1>{{ client.full_name }}</h1>
+<p>Почта: {{ client.email }} {{ book.author.last_name }}</p>
+<p>Комментарий: {{ client.comment }}</p>
+
+<a href="{% url 'mailing:client_update' client.pk %}" class="btn btn-secondary">Редактировать</a>
+<a href="{% url 'mailing:client_delete' client.pk %}" class="btn btn-danger">Удалить</a>
+<a href="{% url 'mailing:clients_list' %}" class="btn btn-primary">Вернуться к списку</a>
+
+
+{% endblock %}

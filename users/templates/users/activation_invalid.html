@@ -1,0 +1,12 @@
+{% extends "mailing/base.html" %}
+
+{% block title %}Ошибка активации{% endblock %}
+
+{% block content %}
+<h1>Ссылка для активации недействительна</h1>
+<p>
+    Возможно, вы уже активировали аккаунт, ссылка устарела
+    или была изменена.
+</p>
+<a href="{% url 'users:login' %}" class="btn btn-primary">Перейти к входу</a>
+{% endblock %}

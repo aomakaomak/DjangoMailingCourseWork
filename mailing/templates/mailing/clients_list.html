@@ -1,0 +1,15 @@
+{% extends 'mailing/base.html' %}
+
+{% block title %}Список клиентов{% endblock %}
+
+{% block content %}
+{% include 'mailing/header.html' %}
+<ul class="list-group">
+    {% for client in clients %}
+    <li class="list-group-item">
+        <a href="{% url 'mailing:client_detail' client.pk %}">{{ client.email }}</a> -- {{ client.full_name }}
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

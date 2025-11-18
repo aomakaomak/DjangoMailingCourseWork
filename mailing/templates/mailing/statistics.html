@@ -1,0 +1,17 @@
+{% extends 'mailing/base.html' %}
+
+{% block title %}Статистика рассылок{% endblock %}
+
+{% block content %}
+{% include 'mailing/header.html' %}
+
+<h1>Статистика рассылок</h1>
+
+<p>Всего рассылок: <strong>{{ total_sendmails }}</strong></p>
+<p>Всего попыток отправки: <strong>{{ total_attempts }}</strong></p>
+<p>Успешных попыток: <strong>{{ success_attempts }}</strong></p>
+<p>Неуспешных попыток: <strong>{{ failed_attempts }}</strong></p>
+<p>Отправленных сообщений (успешно доставленных писем): <strong>{{ total_sent_messages }}</strong></p>
+
+<a href="{% url 'mailing:index' %}" class="btn btn-primary">На главную</a>
+{% endblock %}
